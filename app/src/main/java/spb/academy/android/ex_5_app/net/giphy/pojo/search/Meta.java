@@ -1,5 +1,8 @@
 package spb.academy.android.ex_5_app.net.giphy.pojo.search;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by User on 04.05.2018.
  */
