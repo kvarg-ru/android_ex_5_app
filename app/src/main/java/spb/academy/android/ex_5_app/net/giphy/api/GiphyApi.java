@@ -12,7 +12,6 @@ import spb.academy.android.ex_5_app.net.giphy.pojo.search.GiphySearchAnswer;
 public interface GiphyApi {
 
     @GET("search")
-    Call<GiphySearchAnswer> getSearch(@Query("q") String Query,
-                                      @Query("api_key") String ApiKey);
+    Call<GiphySearchAnswer> getSearch(@Query("q") String Query);
 
 }

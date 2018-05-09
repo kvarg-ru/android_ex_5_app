@@ -7,17 +7,24 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import spb.academy.android.ex_5_app.net.NetworkModule;
 import spb.academy.android.ex_5_app.net.giphy.Constants;
 import spb.academy.android.ex_5_app.net.giphy.api.GiphyApi;
+import spb.academy.android.ex_5_app.net.giphy.pojo.search.Datum;
 import spb.academy.android.ex_5_app.net.giphy.pojo.search.GiphySearchAnswer;
+import spb.academy.android.ex_5_app.net.giphy.pojo.search.T480wStill;
 
 public class MainActivity extends AppCompatActivity {
 
     private final static String LOG_TAG = "MainActivity";
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +33,30 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
 
         GiphyApi apiService = new NetworkModule(getApplicationContext()).getGiphyApi();
-        apiService.getSearch("kitty", Constants.API_KEY).enqueue(new Callback<GiphySearchAnswer>() {
+        apiService.getSearch("kitty").enqueue(new Callback<GiphySearchAnswer>() {
             @Override
             public void onResponse(Call<GiphySearchAnswer> call, Response<GiphySearchAnswer> response) {
 
                 GiphySearchAnswer giphySearchAnswer = response.body();
                 Log.d(LOG_TAG, "Success: " + giphySearchAnswer.getMeta().getStatus());
+
+                List<Picture> pictureList = new ArrayList<>();
+
+                List<Datum> datumList = giphySearchAnswer.getData();
+                for (Datum data:
+                     datumList) {
+
+                    Picture picture = new Picture(data.getImages().get480wStill().getUrl(), data.getUsername(), "twitter");
+
+                    pictureList.add(picture);
+
+                    Log.d(LOG_TAG, picture.getUrl());
+
+                }
+
+                PictureAdapter pictureAdapter = (PictureAdapter) recyclerView.getAdapter();
+                pictureAdapter.updateAllData(pictureList);
+
             }
 
             @Override
@@ -45,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.pictures_recycler_view);
+        recyclerView = findViewById(R.id.pictures_recycler_view);
 
         RecyclerView.LayoutManager layoutManager;
 
