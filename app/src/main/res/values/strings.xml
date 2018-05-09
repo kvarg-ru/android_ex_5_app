@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Ex_5_app</string>
+    <string name="status_initial">Haven\'t searched yet</string>
+    <string name="status_searching">Searching...</string>
+    <string name="status_found">Results found</string>
+    <string name="status_not_found">Results not found</string>
+    <string name="status_error">Error :(</string>
 </resources>

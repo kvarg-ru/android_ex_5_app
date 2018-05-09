@@ -60,6 +60,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ImageHol
     }
 
     public void updateAllData(List<Picture> picturesList) {
+        this.picturesList.clear();
         this.picturesList.addAll(picturesList);
         notifyDataSetChanged();
     }
